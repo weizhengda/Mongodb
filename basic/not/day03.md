@@ -1,8 +1,10 @@
 ##数据库的增删查改
 
 1. 对集合的操作
-   - 获取集合
+   - 获取指定名称的集合
      + db.getCollection('集合名字');  || db.集合名字;
+   - 获取所有的集合
+     + db.getCollectionNames();
 
    - 删除集合
      + db.集合名字.drop()
@@ -27,8 +29,31 @@
      + 如果 upset: true 在查询不到的情况下， 会做新增
      + 注意：remove 不要跟 update使用,upset 要跟 update使用
   
-   - 查看 db.集合名字.find();
-
+   - 查询 (以user为例)
+     + db.user.find();//查询所有记录
+     + db.user.distinct("name");//查询去重后的记录
+     + db.user.find({"age":22});//查询age=22的记录
+     + db.user.find({age:{$gt:22}});//查询age>22的记录
+     + db.user.find({age:{$lt:22}});//查询age<22的记录
+     + db.user.find({age:{$gte:25}});//查询age>=25的记录
+     + db.user.find({age:{$lte:25}});//查询age<=25的记录
+     + db.user.find({age: {$gte: 23, $lte: 26}});//查询age >= 23 并且 age <= 26的记录
+     + db.user.find(name:/mongo/); //查询name中包含 mongo的数据
+     + db.user.find(name:/^mongo/);//查询name中以mongo开头的
+     + db.user.find({}, {name: 1, age: 1});//查询指定列的数据
+     + db.user.find({age: {$gt: 25}}, {name: 1, age: 1});//查询指定列name、age数据, age > 25
+     + db.user.find().sort({age: 1});//按照年龄升序排列
+     + db.user.find().sort({age:-1});//按照年龄降序排列
+     + db.user.find({name: 'zhangsan', age: 22});指定查询
+     + db.user.find().limit(5);//查询前5条记录
+     + db.user.find().skip(10);//查询10条以后的数据
+     + db.user.find().limit(10).skip(5);//查询5-10条之间的数据
+     + db.user.find({$or:[{age:22},{age:26}]});//or与查询
+     + db.user.findOne();//查询第一条数据;
+     + db.userInfo.find({age: {$gte: 25}}).count();//查询某个结果集的条数
+     + db.userInfo.find({age: {$gte: 25}}).count();//按照某列进行排列
+     
+     
 3. 分页
 
 > var pageNo = 1; 页数
